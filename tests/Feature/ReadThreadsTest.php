@@ -19,6 +19,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_view_all_threads()
     {
+        $this->withoutExceptionHandling();
 
         $response = $this->get('/threads');
 
@@ -49,7 +50,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_according_to_a_channel()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $channel = create('App\Channel');
 
