@@ -19,6 +19,8 @@ class ThreadTest extends TestCase
     /** @test */
     public function a_thread_can_make_a_string_path()
     {
+        $this->withoutExceptionHandling();
+
         $thread = create('App\Thread');
 
         $this->assertEquals("/threads/{$thread->channel->slug}/$thread->id", $thread->path());
@@ -53,6 +55,8 @@ class ThreadTest extends TestCase
     /** @test */
     public function a_thread_belongs_to_a_channel()
     {
+        $this->signIn();
+
         $this->withoutExceptionHandling();
 
         $thread = create('App\Thread');

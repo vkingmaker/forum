@@ -15,6 +15,8 @@ class ChannelTest extends TestCase
    public function a_channel_consists_of_threads()
    {
 
+    $this->withExceptionHandling();
+
     $channel = create('App\Channel');
 
     $thread = create('App\Thread', ['channel_id' => $channel->id]);
