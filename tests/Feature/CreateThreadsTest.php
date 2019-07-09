@@ -86,7 +86,6 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function authorized_users_can_delete_threads()
     {
-        $this->withoutExceptionHandling();
 
         $this->signIn();
 
@@ -101,6 +100,22 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseMissing('threads', ['id' => $thread->id ]);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id ]);
+
+        $this->assertDatabaseMissing('activities', [
+
+            'subject_id' => $thread->id,
+
+            'subject_type' => get_class($thread)
+
+             ]);
+
+        $this->assertDatabaseMissing('activities', [
+
+            'subject_id' => $reply->id,
+
+            'subject_type' => get_class($reply)
+
+             ]);
 
     }
 
