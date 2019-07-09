@@ -1851,12 +1851,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       count: this.reply.favoritesCount,
-      isFavorited: this.reply.isFavorited
+      active: this.reply.isFavorited
     };
   },
   computed: {
     classes: function classes() {
-      return ['btn', this.isFavorited ? 'btn-primary' : 'btn-default'];
+      return ['btn', this.active ? 'btn-primary' : 'btn-default'];
     },
     endpoint: function endpoint() {
       return '/replies/' + this.reply.id + '/favorites';
@@ -1864,16 +1864,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggle: function toggle() {
-      this.isFavorited ? this.destroy() : this.create();
+      this.active ? this.destroy() : this.create();
     },
     create: function create() {
       axios.post(this.endpoint);
-      this.isFavorited = true;
+      this.active = true;
       this.count++;
     },
     destroy: function destroy() {
       axios["delete"](this.endpoint);
-      this.isFavorited = false;
+      this.active = false;
       this.count--;
     }
   }

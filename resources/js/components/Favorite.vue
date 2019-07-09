@@ -13,13 +13,13 @@ export default {
     data() {
         return {
             count: this.reply.favoritesCount,
-            isFavorited: this.reply.isFavorited
+            active: this.reply.isFavorited
         }
     },
 
     computed: {
         classes() {
-            return ['btn', this.isFavorited ? 'btn-primary' : 'btn-default'];
+            return ['btn', this.active ? 'btn-primary' : 'btn-default'];
         },
 
         endpoint() {
@@ -29,13 +29,13 @@ export default {
 
     methods: {
         toggle() {
-           this.isFavorited ?   this.destroy() :  this.create();
+           this.active ?   this.destroy() :  this.create();
         },
 
         create(){
             axios.post(this.endpoint);
 
-            this.isFavorited = true;
+            this.active = true;
 
             this.count++;
         },
@@ -43,7 +43,7 @@ export default {
 
             axios.delete(this.endpoint);
 
-            this.isFavorited = false;
+            this.active = false;
 
             this.count--;
         }
