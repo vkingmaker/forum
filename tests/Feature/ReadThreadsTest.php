@@ -37,17 +37,6 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-
-   public function a_user_can_read_replies_that_are_associated_with_a_thread()
-    {
-        $reply = create('App\Reply',['thread_id'=>$this->thread->id]);
-
-        $this->get($this->thread->path())
-
-            ->assertSee($reply->body);
-    }
-
-    /** @test */
     public function a_user_can_filter_threads_according_to_a_channel()
     {
 
@@ -86,7 +75,6 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_by_popularity()
     {
-        $this->withoutExceptionHandling();
 
         $threadWithTwoReplies = create('App\Thread');
         create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
@@ -98,7 +86,21 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson('threads?popular=1')->json();
 
+        // This test is actually not working as expected
+
         $this->assertEquals([3,2,0,0,0,0,0,0], array_column($response, 'replies_count'));
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_by_those_that_are_unanswered()
+    {
+        $thread = create('App\Thread');
+
+        create('App\Reply', ['thread_id' => $thread->id]);
+
+        $response = $this->getJson('threads?unanswered=1')->json();
+
+        $this->assertCount(2, $response);
     }
 
 
@@ -111,9 +113,13 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson($thread->path().'/replies')->json();
 
-       $this->assertCount(1, $response['data']);
+        //This assertion doesnt work for some strange reasons...
 
-       $this->assertCount(2, $response['total']);
+        $this->assertCount(2, $response['total']);
+
+        $this->assertCount(1, $response['data']);
+
+
     }
 
 }

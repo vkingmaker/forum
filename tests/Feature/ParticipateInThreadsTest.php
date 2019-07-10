@@ -30,9 +30,9 @@ class ParticipateInForumTest extends TestCase
 
        $this->post($thread->path().'/replies', $reply->toArray());
 
-       $this->get($thread->path())
+        $this->assertDatabaseHas('replies', ['body' => $reply->body ]);
 
-       ->assertSee($reply->body);
+        $this->assertEquals(1, $thread->fresh()->replies_count);
 
    }
 
@@ -83,12 +83,13 @@ class ParticipateInForumTest extends TestCase
 
     $this->assertDatabaseMissing('replies', ['id' => $reply->id ]);
 
+    $this->assertEquals(0, $reply->thread->fresh()->replies_count);
+
    }
 
    /** @test */
    public function authorized_users_can_update_replies()
    {
-    //    $this->withExceptionHandling();
 
        $this->signIn();
 

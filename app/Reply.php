@@ -15,7 +15,37 @@ class Reply extends Model
 
     protected $with = ['owner', 'favorites'];
 
+    /**
+     *  The accessors to append to the model's array from
+     *
+     * @var array
+     */
+
     protected $appends = ['favoritesCount', 'isFavorited'];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($reply) {
+
+            $reply->thread->increment('replies_count');
+
+        });
+
+        static::deleted(function($reply) {
+
+            $reply->thread->decrement('replies_count');
+
+        });
+    }
+
+    /**
+     *  A reply has an owner
+     *
+     * @return \Illuminate\Database\Eloquent\Relation\BelongsTo
+     */
 
     public function owner()
     {

@@ -23,11 +23,6 @@ class Thread extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('replyCount', function ($builder) {
-
-            $builder->withCount('replies');
-
-        });
 
         static::deleting(function($thread) {
 
@@ -51,10 +46,22 @@ class Thread extends Model
      return $this->belongsTo(User::class, 'user_id');
  }
 
+ /**
+  *  Add a reply to the thread
+  * @param array $reply
+  * @return Model
+  */
+
  public function addReply($reply)
  {
-    return $this->replies()->create($reply);
+   return $this->replies()->create($reply);
  }
+
+ /**
+  *  Apply all relevant thread filters
+  * @param Builder $query
+  * @return Builder
+  */
 
  public function channel()
  {

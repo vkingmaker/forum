@@ -17,7 +17,7 @@
                     <li class="dropdown">
                         <a href="#" id="my-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse</a>
 
-                        <ul class="dropdown-menu" aria-labelledby="my-dropdown">
+                        <ul class="dropdown-menu">
                            <li><a href="/threads">All Threads</a></li>
 
                             @if (auth()->check())
@@ -25,6 +25,7 @@
                             @endif
 
                             <li><a href="/threads?popular=1">Popular Threads</a></li>
+                            <li><a href="/threads?unanswered=1">Unanswered Threads</a></li>
 
                         </ul>
                     </li>
