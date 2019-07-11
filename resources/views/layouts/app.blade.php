@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -43,6 +40,6 @@
             <flash message={{ session('flash') }}></flash>
         </main>
     </div>
-    <script src={{ asset('js/app.js')}}></script>
+    <script src={{ asset('/js/app.js')}}></script>
 </body>
 </html>
