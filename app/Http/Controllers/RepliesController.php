@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Inspections\Spam;
-
 use App\Reply;
 use App\Thread;
 
@@ -35,7 +33,7 @@ class RepliesController extends Controller
 
         try {
 
-            $this->validateReply();
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply = $thread->addReply([
 
@@ -49,13 +47,6 @@ class RepliesController extends Controller
             return response('Sorry, your reply could not be saved at this time.', 422);
 
         }
-
-        // if(request()->expectsJson()) {
-        //     return $reply->load('owner');
-        // }
-
-
-        // return back()->with('flash', "Your reply has been left.");
 
         return $reply->load('owner');
     }
@@ -71,7 +62,8 @@ class RepliesController extends Controller
         $this->authorize('update', $reply);
 
         try{
-            $this->validateReply();
+
+            $this->validate(request(), ['body' => 'required|spamfree']);
 
             $reply->update(request(['body']));
 
@@ -99,11 +91,4 @@ class RepliesController extends Controller
         return back();
     }
 
-
-    public function validateReply()
-    {
-        $this->validate(request(), ['body' => 'required']);
-
-        resolve(Spam::class)->detect(request('body'));
-    }
 }
