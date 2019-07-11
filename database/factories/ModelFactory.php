@@ -66,8 +66,3 @@ $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function
 
     ];
 });
-
-
-// function () {
-//     return auth()->id() ?: factory('App\User')->create()->id;
-// }

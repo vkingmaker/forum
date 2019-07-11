@@ -66,8 +66,6 @@ class NotificationsTest extends TestCase
     {
         create(DatabaseNotification::class);
 
-        // $user = auth()->user();
-
         tap(auth()->user(), function($user) {
 
             $this->assertCount(1, $user->unreadNotifications);
