@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ReadThreadsTest extends TestCase
+class SubscribeToThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -18,13 +18,8 @@ class ReadThreadsTest extends TestCase
 
         $this->post($thread->path().'/subscriptions');
 
-        $this->addReply([
-            'user_id' => auth()->id(),
-            'body' => 'some reply here'
-        ]);
+        $this->assertCount(1, $thread->fresh()->subscriptions);
 
-
-        // $this->assertCount(1, $thread->subscriptions);
     }
 
     /** @test */
