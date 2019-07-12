@@ -13,7 +13,7 @@ class MentionUsersTest extends TestCase
     /** @test */
     public function mentioned_users_in_a_reply_are_notified()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $john = create('App\User', ['name' => 'JohnDoe']);
 

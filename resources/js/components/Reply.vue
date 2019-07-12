@@ -14,12 +14,12 @@
             </div>
             <div class="card-body">
                 <div v-if="editing">
-                    <form action="">
+                    <form @submit="update">
                         <div class="form-group">
                             <textarea class="form-control" v-model="body" required></textarea>
                         </div>
-                            <button class="btn btn-xs btn-primary" @click="update">Update</button>
-                            <button class="btn btn-xs btn-link" @click="editing = false">Cancel</button>
+                            <button class="btn btn-xs btn-primary">Update</button>
+                            <button class="btn btn-xs btn-link" @click="editing = false" type="button">Cancel</button>
                         </form>
                     </div>
 
