@@ -25,13 +25,15 @@ class RepliesController extends Controller
      *
      * @param integer $channelId
      * @param Thread $thread
-     * @return \Illuminate\Http\RedirectResponse
+     * @return  \Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
      */
 
     public function store($channelId, Thread $thread)
     {
 
         try {
+
+            $this->authorize('create', new Reply);
 
             $this->validate(request(), ['body' => 'required|spamfree']);
 

@@ -6,12 +6,25 @@ use App\Favorite;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Cache\CacheManager;
+use Carbon\Carbon;
 
 class Reply extends Model
 {
     use Favoritable, RecordsActivity;
 
+    /**
+     * Don't auto-apply mass assignment protection
+     *
+     * @var array
+     */
+
     protected $guarded = [];
+
+    /**
+     * The relations to eager load on every query
+     *
+     * @var array
+     */
 
     protected $with = ['owner', 'favorites'];
 
@@ -58,6 +71,17 @@ class Reply extends Model
         return $this->belongsTo(Thread::class);
     }
 
+
+    public function wasJustPublished()
+    {
+        return $this->created_at->gt(Carbon::now()->subMinute());
+    }
+
+    /**
+     *  Determine the path to the reply.
+     *
+     * @return string
+     */
 
     public function path()
     {

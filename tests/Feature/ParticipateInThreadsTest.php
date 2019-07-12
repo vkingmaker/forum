@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ParticipateInForumTest extends TestCase
@@ -39,6 +37,8 @@ class ParticipateInForumTest extends TestCase
    /** @test */
    public function a_reply_requires_a_body()
    {
+    $this->withExceptionHandling();
+
     $this->signIn();
 
     $thread = create('App\Thread');
@@ -47,7 +47,7 @@ class ParticipateInForumTest extends TestCase
 
     $this->post($thread->path().'/replies', $reply->toArray())
 
-        ->assertSessionHasErrors('body');
+        ->assertStatus(422);
    }
 
    /** @test */
@@ -125,8 +125,6 @@ class ParticipateInForumTest extends TestCase
    /** @test */
    public function replies_that_contain_span_may_not_be_created()
    {
-    $this->withoutExceptionHandling();
-
     $this->signIn();
 
     $thread = create('App\Thread');
@@ -135,8 +133,33 @@ class ParticipateInForumTest extends TestCase
         'body' => 'Yahoo Customer Support'
     ]);
 
-    $this->expectException(\Exception::class);
 
-    $this->post($thread->path().'/replies', $reply->toArray());
+    $this->post($thread->path().'/replies', $reply->toArray())
+
+        ->assertStatus(422);
+   }
+
+   /** @test */
+   public function users_may_only_reply_a_maximum_of_once_per_minute()
+   {
+    // $this->withoutExceptionHandling();
+
+    $this->signIn();
+
+    $thread = create('App\Thread');
+
+    $reply = make('App\Reply',[
+        'body' => 'My simple reply'
+    ]);
+
+    $this->post($thread->path().'/replies', $reply->toArray())
+
+        ->assertStatus(201);
+
+
+    $this->post($thread->path().'/replies', $reply->toArray())
+
+        ->assertStatus(422);
+
    }
 }
