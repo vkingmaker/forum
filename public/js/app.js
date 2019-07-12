@@ -2196,7 +2196,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     destroy: function destroy() {
       axios["delete"]('/replies/' + this.data.id);
-      this.$emit('deleted', this.data.id);
+      $(this.$el).fadeOut(300, function () {
+        flash('Your reply has been deleted', 'danger');
+      }); // this.$emit('deleted', this.data.id);
     }
   }
 });
@@ -2271,7 +2273,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     markAsRead: function markAsRead(notification) {
-      axios["delete"]('/profiles' + window.App.user.name + '/notifications/' + notification.id);
+      axios["delete"]('/profiles/' + window.App.user.name + '/notifications/' + notification.id);
     }
   }
 });
@@ -56283,7 +56285,10 @@ var render = function() {
         _vm._v(" "),
         _c(
           "ul",
-          { staticClass: "dropdown-menu" },
+          {
+            staticClass: "dropdown-menu px-3",
+            staticStyle: { "min-width": "230px" }
+          },
           _vm._l(_vm.notifications, function(notification) {
             return _c("li", [
               _c("a", {

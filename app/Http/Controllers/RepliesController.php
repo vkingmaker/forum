@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\User;
 use App\Thread;
+use App\Http\Requests\CreatePostRequest;
+use App\Notifications\YouWereMentioned;
 
 class RepliesController extends Controller
 {
@@ -25,32 +28,35 @@ class RepliesController extends Controller
      *
      * @param integer $channelId
      * @param Thread $thread
+     * @params CreatePostForm $form
      * @return  \Illuminate\Database\Eloquent\Model|\Illuminate\Http\RedirectResponse
      */
 
-    public function store($channelId, Thread $thread)
+    public function store($channelId, Thread $thread, CreatePostRequest $form)
     {
-
-        try {
-
-            $this->authorize('create', new Reply);
-
-            $this->validate(request(), ['body' => 'required|spamfree']);
-
             $reply = $thread->addReply([
 
                 'body' => request('body'),
 
                 'user_id' => auth()->id()
+
             ]);
 
-        } catch (\Exception $e) {
+            preg_match_all('/\@([^\s\.]+)/', $reply->body, $matches);
 
-            return response('Sorry, your reply could not be saved at this time.', 422);
+            $names = $matches[1];
 
-        }
+            foreach ($names as $name) {
 
-        return $reply->load('owner');
+                $user = User::whereName($name)->first();
+
+                if($user) {
+
+                    $user->notify(new YouWereMentioned($reply));
+                }
+            }
+
+            return $reply->load('owner');
     }
 
     /**
@@ -76,6 +82,13 @@ class RepliesController extends Controller
         }
 
     }
+
+    /**
+     *  Delete the given reply
+     *
+     * @param Reply $reply
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
 
     public function destroy(Reply $reply)

@@ -85,7 +85,15 @@
 
                 axios.delete('/replies/' + this.data.id);
 
-                this.$emit('deleted', this.data.id);
+                $(this.$el).fadeOut(300, () => {
+
+                    flash('Your reply has been deleted','danger');
+
+                });
+
+                // this.$emit('deleted', this.data.id);
+
+
             }
         }
     }

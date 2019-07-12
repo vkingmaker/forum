@@ -14,6 +14,7 @@ export default {
             this.items.slice(index, 1);
 
             this.$emit('removed');
+
         }
     }
 }

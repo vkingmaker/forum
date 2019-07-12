@@ -10,14 +10,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="/threads">All Threads</a>
-                    </li>
+                    </li> --}}
 
-                    <li class="dropdown">
+                    <li class="dropdown mt-1">
                         <a href="#" id="my-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse</a>
 
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu px-1">
                            <li><a href="/threads">All Threads</a></li>
 
                             @if (auth()->check())
@@ -30,14 +30,14 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item mt-1">
                         <a class="nav-link" href="/threads/create">New Thread</a>
                     </li>
 
-                    <li class="dropdown">
+                    <li class="dropdown mt-1">
                         <a href="#" id="my-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Channels</a>
 
-                        <ul class="dropdown-menu" aria-labelledby="my-dropdown">
+                        <ul class="dropdown-menu pl-2" aria-labelledby="my-dropdown">
                             @foreach ($channels as $channel)
                                 <li><a href="/threads/{{ $channel->slug}}">{{ $channel->name }}</a></li>
                             @endforeach
@@ -59,7 +59,7 @@
                         @endif
                     @else
 
-                    <user-notifications></user-notifications>
+                    <user-notifications class="mt-2"></user-notifications>
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -4,7 +4,7 @@
             <span>&#128276;</span>
         </a>
 
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu px-3" style="min-width: 230px;">
             <li v-for="notification in notifications">
                 <a :href="notification.data.link" v-text="notification.data.message" @click="markAsRead(notification)"></a>
             </li>
@@ -28,7 +28,7 @@ export default {
     methods: {
         markAsRead(notification) {
 
-            axios.delete('/profiles'+ window.App.user.name + '/notifications/' + notification.id);
+            axios.delete('/profiles/'+ window.App.user.name + '/notifications/' + notification.id);
 
         }
     }
