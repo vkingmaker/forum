@@ -26,11 +26,5 @@ class NotifyThreadSubscribers
                 ->each
 
                 ->notify($event->reply);
-
-        // $this->subscriptions->filter(function($sub) use ($reply) {
-
-        //     return $sub->user_id != $event->reply->user_id;
-
-        // })->each->notify($event->reply);
     }
 }
