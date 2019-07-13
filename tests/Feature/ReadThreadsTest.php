@@ -88,7 +88,7 @@ class ReadThreadsTest extends TestCase
 
         // This test is actually not working as expected
 
-        $this->assertEquals([3,2,0,0,0,0,0,0], array_column($response, 'replies_count'));
+        $this->assertEquals([3,2,0,0,0,0,0,0], array_column($response['data'], 'replies_count'));
     }
 
     /** @test */
@@ -100,7 +100,7 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson('threads?unanswered=1')->json();
 
-        $this->assertCount(2, $response);
+        $this->assertCount(2, $response['data']);
     }
 
 
