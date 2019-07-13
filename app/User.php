@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'avatar_path'
     ];
 
     /**
@@ -76,6 +76,13 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
+
+    public function avatar()
+    {
+
+        return $this->avatar_path ?: 'avatars/default.jpg';
+
+    }
 
     public function visitedThreadCachedKey($thread)
     {
