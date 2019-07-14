@@ -64,6 +64,7 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request,[
 
             'title' => 'required|spamfree',
@@ -108,7 +109,6 @@ class ThreadsController extends Controller
 
         $trending->push($thread);
 
-        // $thread->visits()->record();
         $thread->increment('visits');
 
         return view('threads.show', compact('thread'));
