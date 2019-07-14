@@ -19,8 +19,6 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_view_all_threads()
     {
-        // $this->withoutExceptionHandling();
-
         $response = $this->get('/threads');
 
         $response->assertSee($this->thread->title);
@@ -114,14 +112,22 @@ class ReadThreadsTest extends TestCase
 
         $response = $this->getJson($thread->path().'/replies')->json();
 
-        //This assertion doesnt work for some strange reasons...
+        $this->assertCount(2, $response['data']);
 
         $this->assertEquals(2, $response['total']);
-        // $this->assertCount(2, $response['total']);
 
-        // $this->assertCount(1, $response['data']);
+    }
 
+    /** @test */
+    public function we_record_a_new_visit_each_time_the_thread_is_read()
+    {
+        $thread = create('App\Thread');
 
+        $this->assertSame(0, $thread->visits);
+
+        $this->call('GET', $thread->path());
+
+        $this->assertEquals(1, $thread->fresh()->visits);
     }
 
 }
