@@ -34,7 +34,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+
+        'confirmed' => 'boolean',
     ];
 
       /**
@@ -74,6 +75,14 @@ class User extends Authenticatable
     public function activity()
     {
         return $this->hasMany(Activity::class);
+    }
+
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+
+        $this->save();
     }
 
     public function getAvatarPathAttribute($avatar)
