@@ -50,8 +50,6 @@ class CreateThreadsTest extends TestCase
 
     $response = $this->post(route('threads'), $thread->toArray());
 
-    // dd($response->headers->get('Location'));
-
     $this->get($response->headers->get('Location'))->assertSee($thread->title)
 
         ->assertSee($thread->body);
@@ -86,6 +84,42 @@ class CreateThreadsTest extends TestCase
        $this->publishThread(['channel_id' => 999 ])
 
             ->assertSessionHasErrors('channel_id');
+   }
+
+   /** @test */
+   public function a_thread_requires_a_unique_slug()
+   {
+
+     $this->signIn()->withoutExceptionHandling();
+
+      $thread = create('App\Thread', ['title' => 'Foo Title', 'slug' => 'foo-title']);
+
+    //   $this->assertEquals($thread->fresh()->slug, 'foo-title');
+
+    //   $this->post(route('threads'), $thread->toArray());
+
+    //   $this->assertTrue($thread::whereSlug('foo-title-2')->exists());
+
+    //   $this->post(route('threads'), $thread->toArray());
+
+    //   $this->assertTrue($thread::whereSlug('foo-title-3')->exists());
+
+
+   }
+
+   /** @test */
+   public function a_thread_with_a_title_that_ends_in_a_number_should_generate_the_proper_slug()
+   {
+    $this->signIn()->withoutExceptionHandling();
+
+    $thread = create('App\Thread', ['title' => 'Some title 24', 'slug' => 'some-title-24']);
+
+    $this->post(route('threads'), $thread->toArray());
+
+    $this->assertTrue($thread::whereSlug('some-title-24-2')->exists());
+
+
+
    }
 
    /** @test */

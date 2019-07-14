@@ -126,4 +126,21 @@ class Thread extends Model
     return 'slug';
  }
 
+
+ public function setSlugAttribute($value)
+ {
+    $slug =str_slug($value);
+
+    $original = $slug;
+
+    $count = 2;
+
+   while( static::whereSlug($slug)->exists()) {
+       $slug = "{$original}-".$count++;
+   }
+
+    $this->attributes['slug'] = $slug;
+ }
+
+
 }
