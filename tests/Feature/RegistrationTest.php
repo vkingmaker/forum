@@ -20,17 +20,28 @@ class RegistrationTest extends TestCase
 
         Mail::fake();
 
-        event(new Registered(create('App\User')));
+        $this->post(route('register'), [
 
-        Mail::assertSent(PleaseConfirmYourEmail::class);
+            'name' => 'John',
+
+            'email' => 'John@example.com',
+
+            'password' => 'password',
+
+            'password_confirmation' => 'password'
+
+
+          ]);
+
+        Mail::assertQueued(PleaseConfirmYourEmail::class);
     }
 
     /** @test */
     public function user_can_fully_verify_their_email_address()
     {
-        $this->withExceptionHandling();
+        Mail::fake();
 
-       $this->post('/register', [
+       $this->post(route('register'), [
 
           'name' => 'John',
 
@@ -50,11 +61,24 @@ class RegistrationTest extends TestCase
         $this->assertNotNull($user->confirmation_token);
 
         // // Let the user confirm their account
-        $response = $this->get('/register/confirm?token='.$user->confirmation_token);
+        $response = $this->get(route('register.confirm', ['token' => $user->confirmation_token]))
+
+                ->assertRedirect(route('threads'));
 
         $this->assertTrue($user->fresh()->confirmed);
 
-        $response->assertRedirect('/threads');
 
+    }
+
+    /** @test */
+    public function configuring_an_invalid_token()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->get(route('register.confirm', ['token' => 'invalid']))
+
+                ->assertRedirect(route('threads'))
+
+                ->assertSessionHas('flash', 'Unknown token.');
     }
 }
