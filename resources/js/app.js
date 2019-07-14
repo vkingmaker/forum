@@ -27,6 +27,9 @@ Vue.component('user-notifications', require('./components/UserNotifications.vue'
 
 Vue.component('thread-view', require('./pages/Thread.vue').default);
 
+Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

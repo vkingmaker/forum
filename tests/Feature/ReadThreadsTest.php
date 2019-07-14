@@ -19,7 +19,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_view_all_threads()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $response = $this->get('/threads');
 
@@ -30,6 +30,7 @@ class ReadThreadsTest extends TestCase
 
     public function a_user_can_read_a_single_thread()
     {
+        $this->withoutExceptionHandling();
 
         $response = $this->get($this->thread->path());
 
@@ -57,7 +58,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_filter_threads_by_any_username()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
         $this->signIn(create('App\User', ['name' => 'JohnDoe']));
 
