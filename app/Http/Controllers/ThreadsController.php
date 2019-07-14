@@ -83,7 +83,9 @@ class ThreadsController extends Controller
 
             'title' => request('title'),
 
-            'body' => request('body')
+            'body' => request('body'),
+
+            'slug' => str_slug(request('title'))
 
         ]);
 

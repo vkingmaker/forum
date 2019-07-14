@@ -36,12 +36,14 @@ $factory->state(App\User::class, 'unconfirmed', function() {
 });
 
 $factory->define(App\Thread::class, function (Faker $faker){
+    $title = $faker->sentence;
     return [
         'user_id'=> factory(User::class)->create()->id,
         'channel_id' => factory(App\Channel::class)->create()->id,
-        'title' => $faker->sentence,
+        'title' => $title,
         'body'=> $faker->paragraph,
-        'visits' => 0
+        'visits' => 0,
+        'slug' => str_slug($title)
     ];
 });
 

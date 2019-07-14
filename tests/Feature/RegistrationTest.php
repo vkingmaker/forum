@@ -30,7 +30,6 @@ class RegistrationTest extends TestCase
 
             'password_confirmation' => 'password'
 
-
           ]);
 
         Mail::assertQueued(PleaseConfirmYourEmail::class);

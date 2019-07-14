@@ -42,11 +42,15 @@ class CreateThreadsTest extends TestCase
    /** @test */
    public function a_user_can_create_a_new_forum_threads()
    {
+    $this->withoutExceptionHandling();
+
     $this->signIn();
 
     $thread = make('App\Thread');
 
     $response = $this->post(route('threads'), $thread->toArray());
+
+    // dd($response->headers->get('Location'));
 
     $this->get($response->headers->get('Location'))->assertSee($thread->title)
 
