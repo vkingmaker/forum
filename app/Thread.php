@@ -3,13 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Notifications\ThreadWasUpdated;
-use App\Events\ThreadHasNewReply;
 use App\Events\ThreadReceivedNewReply;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, RecordsVisits;
 
     /**
      * Don't auto-apply mass assignment  protection
@@ -117,9 +115,9 @@ class Thread extends Model
 
  public function hasUpdatesFor($user)
  {
-    // $key = sprintf("users.%s.visits.%s", auth()->id(), $this->id);
     $key = $user->visitedThreadCachedKey($this);
 
     return $this->updated_at > cache($key);
  }
+
 }

@@ -98,7 +98,7 @@ class ThreadsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($channelId, Thread $thread, Trending $trnding)
+    public function show($channelId, Thread $thread, Trending $trending)
     {
         if (auth()->check()) {
 
@@ -106,7 +106,9 @@ class ThreadsController extends Controller
 
         }
 
-        $trnding->push($thread);
+        $trending->push($thread);
+
+        $thread->recordVisit();
 
 
         return view('threads.show', compact('thread'));
