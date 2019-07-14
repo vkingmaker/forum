@@ -83,11 +83,15 @@ class ThreadsController extends Controller
 
             'title' => request('title'),
 
-            'body' => request('body'),
-
-            'slug' => request('title')
+            'body' => request('body')
 
         ]);
+
+        if(request()->wantsJson()) {
+
+            return response($thread, 201);
+
+        }
 
         return redirect($thread->path())
 

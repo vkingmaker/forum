@@ -32,6 +32,14 @@ class Thread extends Model
             $thread->replies->each->delete();
 
         });
+
+        static::created(function($thread) {
+
+            $thread->update(['slug' => $thread->title]);
+
+        });
+
+
     }
 
  public function path()
@@ -131,16 +139,11 @@ class Thread extends Model
  {
     $slug =str_slug($value);
 
-    $original = $slug;
-
-    $count = 2;
-
-   while( static::whereSlug($slug)->exists()) {
-       $slug = "{$original}-".$count++;
+   if ( static::whereSlug($slug)->exists()) {
+       $slug = "{$slug}-".$this->id;
    }
 
     $this->attributes['slug'] = $slug;
  }
-
 
 }

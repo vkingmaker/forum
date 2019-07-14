@@ -89,20 +89,17 @@ class CreateThreadsTest extends TestCase
    /** @test */
    public function a_thread_requires_a_unique_slug()
    {
+     $this->signIn();
 
-     $this->signIn()->withoutExceptionHandling();
+      $thread = create('App\Thread', ['title' => 'Foo Title']);
 
-      $thread = create('App\Thread', ['title' => 'Foo Title', 'slug' => 'foo-title']);
+      $this->assertEquals($thread->fresh()->slug, 'foo-title');
 
-    //   $this->assertEquals($thread->fresh()->slug, 'foo-title');
+     $thread = $this->postJson(route('threads'), $thread->toArray())->json();
 
-    //   $this->post(route('threads'), $thread->toArray());
 
-    //   $this->assertTrue($thread::whereSlug('foo-title-2')->exists());
+      $this->assertEquals("foo-title-{$thread['id']}", $thread['slug']);
 
-    //   $this->post(route('threads'), $thread->toArray());
-
-    //   $this->assertTrue($thread::whereSlug('foo-title-3')->exists());
 
 
    }
@@ -112,11 +109,12 @@ class CreateThreadsTest extends TestCase
    {
     $this->signIn()->withoutExceptionHandling();
 
-    $thread = create('App\Thread', ['title' => 'Some title 24', 'slug' => 'some-title-24']);
+    $thread = create('App\Thread', ['title' => 'Some title 24']);
 
-    $this->post(route('threads'), $thread->toArray());
+    $thread = $this->postJson(route('threads'), $thread->toArray())->json();
 
-    $this->assertTrue($thread::whereSlug('some-title-24-2')->exists());
+    // $this->assertTrue($thread::whereSlug('some-title-24-2')->exists());
+    $this->assertEquals("some-title-24-{$thread['id']}", $thread['slug']);
 
 
 
