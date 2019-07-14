@@ -11,23 +11,16 @@ class RegisterConfirmationController extends Controller
 
     public function index()
     {
-        try {
+            $user = User::where('confirmation_token', request('token'))->first();
 
-            $user = User::where('confirmation_token', request('token'))
+            if(!$user) {
 
-            ->firstOrFail()
+                return redirect(route('threads'))->with('flash', 'Unknown token.');
+            }
 
-            ->confirm();
+        $user->confirm();
 
-        } catch(\Exception $ex){
-
-            return redirect(route('threads'))
-
-            ->with('flash', 'Unknown token.');
-        }
-
-
-        return redirect('/threads')
+        return redirect(route('threads'))
 
             ->with('flash', 'Your account is now confirmed! You may post to the forum.');
     }
