@@ -1,5 +1,5 @@
 <template>
-        <div id="'reply-'+id" class="card">
+        <div id="'reply-'+id" class="card" :class="isBest ? 'bg-primary' : 'bg-light'">
             <div class="card-header">
                 <div class="level">
                     <h5 class="flex">
@@ -26,9 +26,12 @@
                 <div v-else v-html="body"></div>
             </div>
 
-            <div class="card-footer level" v-if="canUpdate">
+            <div class="card-footer level">
+            <div v-if="canUpdate">
                 <button class="btn btn-xs mr-1 btn-secondary" @click="editing = true">Edit</button>
                 <button class="btn btn-danger btn-xs mr-1" @click="destroy">Delete</button>
+            </div>
+                <button class="btn btn-default btn-xs mr-1 border ml-auto" @click="markBestReply" v-show="! isBest">Best Reply?</button>
             </div>
         </div>
 
@@ -50,7 +53,8 @@
             return {
                 editing: false,
                 id: this.data.id,
-                body: this.data.body
+                body: this.data.body,
+                isBest: false
             };
         },
 
@@ -94,9 +98,14 @@
                 });
 
                 // this.$emit('deleted', this.data.id);
+            },
 
+            markBestReply() {
+
+                    this.isBest = true;
 
             }
+
         }
     }
 
