@@ -88,6 +88,8 @@ class CreateThreadsTest extends TestCase
    /** @test */
    public function a_test_requires_a_recaptcha_verification()
    {
+       $this->withoutExceptionHandling();
+
        unset(app()[Recaptcha::class]);
 
         $this->publishThread(['g-recaptcha-response' => 'test' ])
@@ -137,7 +139,6 @@ class CreateThreadsTest extends TestCase
 
     $thread = $this->postJson(route('threads'), $thread->toArray()+ ['g-recaptcha-response' => 'token'])->json();
 
-    // $this->assertTrue($thread::whereSlug('some-title-24-2')->exists());
     $this->assertEquals("some-title-24-{$thread['id']}", $thread['slug']);
 
 

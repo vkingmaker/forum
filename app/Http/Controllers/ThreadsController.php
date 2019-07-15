@@ -78,21 +78,6 @@ class ThreadsController extends Controller
 
         ]);
 
-    //    $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
-
-    //         'secret' => config('services.recaptcha.secret'),
-
-    //         'response' => $request->input('g-recaptcha-response'),
-
-    //         'remoteip' => $_SERVER['REMOTE_ADDR']
-    //     ]);
-
-    //     if (! $response->json()['success']) {
-
-    //         throw new \Exception('Recaptcha failed');
-
-    //     }
-
        $thread = Thread::create([
 
             'user_id' => auth()->id(),
@@ -136,6 +121,23 @@ class ThreadsController extends Controller
         $thread->increment('visits');
 
         return view('threads.show', compact('thread'));
+    }
+
+
+    public function update($channel, Thread $thread)
+    {
+        $this->authorize('update', $thread);
+
+       $data = request()->validate([
+
+            'title' => 'required|spamfree',
+
+            'body' => 'required|spamfree',
+
+        ]);
+
+        $thread->update($data);
+
     }
 
     /**

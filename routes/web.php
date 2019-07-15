@@ -16,6 +16,8 @@ Route::get('/threads/create', 'ThreadsController@create');
 
 Route::get('/threads/{channel}/{thread}', 'ThreadsController@show');
 
+Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update');
+
 Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update')->name('threads.update');
 
 Route::post('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
