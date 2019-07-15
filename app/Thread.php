@@ -63,20 +63,27 @@ class Thread extends Model
   * @return Model
   */
 
- public function addReply($reply)
- {
+    public function addReply($reply)
+    {
     $reply = $this->replies()->create($reply);
 
     event(new ThreadReceivedNewReply($reply));
 
-   return $reply;
- }
-
-
-    public function lock()
-    {
-    $this->update(['locked' => true]);
+    return $reply;
     }
+
+
+    // public function lock()
+    // {
+    //     $this->update(['locked' => true]);
+    // }
+
+    // public function unlock()
+    // {
+    //     $this->update(['locked' => false]);
+    // }
+
+
 
  /**
   *  Apply all relevant thread filters

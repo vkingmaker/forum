@@ -20,6 +20,8 @@ Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update')->name('t
 
 Route::post('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
 
+Route::delete('/locked-threads/{thread}', 'LockedThreadsController@destroy')->name('locked-threads.destroy')->middleware('admin');
+
 Route::delete('/threads/{channel}/{thread}', 'ThreadsController@destroy');
 
 Route::post('/threads', 'ThreadsController@store')->middleware('must-be-confirmed');

@@ -22,8 +22,6 @@ class ThreadTest extends TestCase
     /** @test */
     public function a_thread_has_a_path()
     {
-        // $this->withoutExceptionHandling();
-
         $thread = create('App\Thread');
 
         $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->slug}", $thread->path());
@@ -137,16 +135,6 @@ class ThreadTest extends TestCase
         $this->assertFalse($thread->hasUpdatesFor($user));
 
         });
-    }
-
-    /** @test */
-    public function a_thread_may_be_locked()
-    {
-        $this->assertFalse($this->thread->locked);
-
-        $this->thread->lock();
-
-        $this->assertTrue($this->thread->locked);
     }
 
 }
