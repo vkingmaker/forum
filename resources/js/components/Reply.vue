@@ -1,10 +1,10 @@
 <template>
-        <div id="'reply-'+id" class="card" :class="isBest ? 'bg-primary' : 'bg-light'">
+        <div id="'reply-'+id" class="card" :class="isBest ? 'bg-secondary' : 'bg-light'">
             <div class="card-header">
                 <div class="level">
                     <h5 class="flex">
                         <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
-                        said <span v-text="ago"></span>...
+                        said <span v-text="ago"></span>
                     </h5>
 
                     <div v-if="signedIn">
@@ -27,11 +27,11 @@
             </div>
 
             <div class="card-footer level">
-            <div v-if="canUpdate">
+            <div v-if="authorize('updateReply',reply)">
                 <button class="btn btn-xs mr-1 btn-secondary" @click="editing = true">Edit</button>
                 <button class="btn btn-danger btn-xs mr-1" @click="destroy">Delete</button>
             </div>
-                <button class="btn btn-default btn-xs mr-1 border ml-auto" @click="markBestReply" v-show="! isBest">Best Reply?</button>
+                <button class="btn btn-default btn-xs mr-1 border ml-auto" @click="markBestReply" v-show="!isBest">Best Reply?</button>
             </div>
         </div>
 
@@ -54,21 +54,22 @@
                 editing: false,
                 id: this.data.id,
                 body: this.data.body,
-                isBest: false
+                isBest: this.data.isBest,
+                reply: this.data
             };
         },
 
         computed: {
             ago() {
-                return moment (this.data.created_at).fromNow();
-            },
-            signedIn() {
-                return window.App.signedIn;
-            },
+                return moment (this.data.created_at).fromNow()+'...';
+            }
+        },
 
-            canUpdate() {
-                return this.authorize(user => this.data.user_id == user.id );
-             }
+        created() {
+
+            window.events.$on('best-reply-selected', id => {
+                this.isBest = (id === this.id);
+            });
         },
 
 
@@ -102,7 +103,9 @@
 
             markBestReply() {
 
-                    this.isBest = true;
+                    axios.post('/replies/' + this.data.id + '/best');
+
+                    window.events.$emit('best-reply-selected', this.data.id);
 
             }
 
