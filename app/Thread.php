@@ -72,6 +72,12 @@ class Thread extends Model
    return $reply;
  }
 
+
+    public function lock()
+    {
+    $this->update(['locked' => true]);
+    }
+
  /**
   *  Apply all relevant thread filters
   * @param Builder $query

@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class BestReplyTest extends TestCase
 {
@@ -14,6 +15,8 @@ class BestReplyTest extends TestCase
     /** @test */
     public function a_thread_creator_may_mark_any_reply_as_the_best_reply()
     {
+        DB::statement('PRAGMA foreign_KEYS=ON;');
+
         $this->signIn();
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);

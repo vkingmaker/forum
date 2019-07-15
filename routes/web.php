@@ -16,6 +16,10 @@ Route::get('/threads/create', 'ThreadsController@create');
 
 Route::get('/threads/{channel}/{thread}', 'ThreadsController@show');
 
+Route::patch('/threads/{channel}/{thread}', 'ThreadsController@update')->name('threads.update');
+
+Route::post('/locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
+
 Route::delete('/threads/{channel}/{thread}', 'ThreadsController@destroy');
 
 Route::post('/threads', 'ThreadsController@store')->middleware('must-be-confirmed');
