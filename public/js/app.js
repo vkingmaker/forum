@@ -58150,6 +58150,14 @@ var render = function() {
               ? _c(
                   "button",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.isBest,
+                        expression: "!isBest"
+                      }
+                    ],
                     staticClass: "btn btn-default btn-xs mr-1 border ml-auto",
                     on: { click: _vm.markBestReply }
                   },

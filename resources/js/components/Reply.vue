@@ -31,7 +31,7 @@
                 <button class="btn btn-xs mr-1 btn-secondary" @click="editing = true">Edit</button>
                 <button class="btn btn-danger btn-xs mr-1" @click="destroy">Delete</button>
             </div>
-                <button class="btn btn-default btn-xs mr-1 border ml-auto" @click="markBestReply" v-if="authorize('owns', reply.thread)">Best Reply?</button>
+                <button class="btn btn-default btn-xs mr-1 border ml-auto" @click="markBestReply" v-if="authorize('owns', reply.thread)" v-show="!isBest">Best Reply?</button>
             </div>
         </div>
 

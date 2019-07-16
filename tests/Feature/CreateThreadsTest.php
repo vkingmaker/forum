@@ -88,7 +88,6 @@ class CreateThreadsTest extends TestCase
    /** @test */
    public function a_test_requires_a_recaptcha_verification()
    {
-       $this->withoutExceptionHandling();
 
        unset(app()[Recaptcha::class]);
 

@@ -6,8 +6,6 @@ use App\Thread;
 use App\Channel;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Redis;
 use App\Trending;
 use App\Rules\Recaptcha;
 

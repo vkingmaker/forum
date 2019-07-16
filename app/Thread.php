@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Events\ThreadReceivedNewReply;
+use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, Searchable;
 
     /**
      * Don't auto-apply mass assignment  protection
@@ -71,17 +72,6 @@ class Thread extends Model
 
     return $reply;
     }
-
-
-    // public function lock()
-    // {
-    //     $this->update(['locked' => true]);
-    // }
-
-    // public function unlock()
-    // {
-    //     $this->update(['locked' => false]);
-    // }
 
 
 

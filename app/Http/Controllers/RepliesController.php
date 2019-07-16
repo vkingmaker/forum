@@ -6,7 +6,6 @@ use App\Reply;
 use App\User;
 use App\Thread;
 use App\Http\Requests\CreatePostRequest;
-use App\Notifications\YouWereMentioned;
 
 class RepliesController extends Controller
 {
